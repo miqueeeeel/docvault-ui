@@ -1,0 +1,63 @@
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <span class="logo-icon">🗄️</span>
+            <h1>DocVault</h1>
+        </div>
+        <h2 class="auth-title">Crear cuenta</h2>
+        <p class="auth-subtitle">Empieza a gestionar tus documentos</p>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nombre completo</mat-label>
+                <input matInput formControlName="name" placeholder="Tu nombre" autocomplete="name" />
+                <mat-icon matSuffix>person</mat-icon>
+                @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
+                <mat-error>El nombre es obligatorio</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="tu@email.com" autocomplete="email" />
+                <mat-icon matSuffix>email</mat-icon>
+                @if (form.get('email')?.hasError('required') && form.get('email')?.touched) {
+                <mat-error>El email es obligatorio</mat-error>
+                } @else if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
+                <mat-error>Email no válido</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Contraseña</mat-label>
+                <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password"
+                    autocomplete="new-password" />
+                <button mat-icon-button matSuffix type="button" (click)="hidePassword.set(!hidePassword())">
+                    <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                @if (form.get('password')?.hasError('minlength') && form.get('password')?.touched) {
+                <mat-error>Mínimo 6 caracteres</mat-error>
+                }
+            </mat-form-field>
+
+            @if (error()) {
+            <div class="auth-error">
+                <mat-icon>error_outline</mat-icon>
+                <span>{{ error() }}</span>
+            </div>
+            }
+
+            <button mat-flat-button class="submit-btn" type="submit" [disabled]="loading() || form.invalid">
+                @if (loading()) {
+                <mat-spinner diameter="20" />
+                } @else {
+                Registrarse
+                }
+            </button>
+        </form>
+
+        <p class="auth-link">
+            ¿Ya tienes cuenta? <a routerLink="/auth/login">Inicia sesión</a>
+        </p>
+    </div>
+</div>

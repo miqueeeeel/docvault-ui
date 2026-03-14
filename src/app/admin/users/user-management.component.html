@@ -1,0 +1,60 @@
+<div class="users-page">
+    <div class="page-header">
+        <h1 class="page-title">Gestión de Usuarios</h1>
+        <p class="page-subtitle">{{ users().length }} usuario(s) registrado(s)</p>
+    </div>
+
+    <div class="table-container mat-elevation-z1">
+        @if (loading()) {
+        <div class="loading-center"><mat-spinner /></div>
+        } @else {
+        <table mat-table [dataSource]="users()" class="users-table">
+
+            <ng-container matColumnDef="avatar">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let user">
+                    <div class="avatar">{{ getInitials(user.name) }}</div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let user" class="name-cell">{{ user.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>Email</th>
+                <td mat-cell *matCellDef="let user" class="email-cell">{{ user.email }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef>Rol</th>
+                <td mat-cell *matCellDef="let user">
+                    <span class="role-badge" [class.admin]="user.role === 'admin'">
+                        {{ user.role === 'admin' ? 'Admin' : 'Usuario' }}
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="createdAt">
+                <th mat-header-cell *matHeaderCellDef>Registrado</th>
+                <td mat-cell *matCellDef="let user" class="date-cell">{{ formatDate(user.createdAt) }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Cambiar rol</th>
+                <td mat-cell *matCellDef="let user">
+                    <mat-select [value]="user.role" (selectionChange)="updateRole(user, $event.value)"
+                        class="role-select">
+                        <mat-option value="user">Usuario</mat-option>
+                        <mat-option value="admin">Admin</mat-option>
+                    </mat-select>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        }
+    </div>
+</div>

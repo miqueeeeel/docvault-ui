@@ -1,0 +1,115 @@
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    padding: 1rem;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+.auth-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+
+    .logo-icon {
+        font-size: 2rem;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0;
+    }
+}
+
+.auth-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0 0 0.25rem 0;
+}
+
+.auth-subtitle {
+    color: #64748b;
+    margin: 0 0 1.75rem 0;
+    font-size: 0.9rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.auth-error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fef2f2;
+    color: #dc2626;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    border: 1px solid #fecaca;
+
+    mat-icon {
+        font-size: 1.1rem;
+        width: 1.1rem;
+        height: 1.1rem;
+    }
+}
+
+.submit-btn {
+    width: 100%;
+    height: 48px;
+    border-radius: 10px !important;
+    font-size: 1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+    color: white !important;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    &:disabled {
+        opacity: 0.7;
+    }
+}
+
+.auth-link {
+    text-align: center;
+    margin: 1.25rem 0 0;
+    color: #64748b;
+    font-size: 0.9rem;
+
+    a {
+        color: #6366f1;
+        text-decoration: none;
+        font-weight: 600;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

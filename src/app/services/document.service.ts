@@ -3,20 +3,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Document, DocumentsResponse } from '../models/document.model';
 import { Version } from '../models/version.model';
+import { environment } from '../../environments/environment';
+import { User } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class DocumentService {
-    private apiUrl = 'http://localhost:3000/api';
+    private apiUrl = environment.apiUrl;
 
     constructor(private http: HttpClient) { }
 
-    getDocuments(params: {
-        search?: string;
-        category?: string;
-        sort?: string;
-        page?: number;
-        limit?: number;
-    }): Observable<DocumentsResponse> {
+    getDocuments(params: any = {}): Observable<DocumentsResponse> {
         let httpParams = new HttpParams();
         if (params.search) httpParams = httpParams.set('search', params.search);
         if (params.category) httpParams = httpParams.set('category', params.category);
@@ -27,18 +23,9 @@ export class DocumentService {
         return this.http.get<DocumentsResponse>(`${this.apiUrl}/documents`, { params: httpParams });
     }
 
-    getAdminDocuments(params: {
-        search?: string;
-        category?: string;
-        sort?: string;
-        page?: number;
-        limit?: number;
-    }): Observable<DocumentsResponse> {
+    getAdminDocuments(params: any = {}): Observable<DocumentsResponse> {
         let httpParams = new HttpParams();
-        if (params.search) httpParams = httpParams.set('search', params.search);
-        if (params.category) httpParams = httpParams.set('category', params.category);
         if (params.sort) httpParams = httpParams.set('sort', params.sort);
-        if (params.page) httpParams = httpParams.set('page', params.page.toString());
         if (params.limit) httpParams = httpParams.set('limit', params.limit.toString());
 
         return this.http.get<DocumentsResponse>(`${this.apiUrl}/documents/admin/all`, { params: httpParams });
@@ -49,24 +36,15 @@ export class DocumentService {
     }
 
     uploadDocument(formData: FormData): Observable<Document> {
-        return this.http.post<Document>(`${this.apiUrl}/documents`, formData);
+        return this.http.post<Document>(`${this.apiUrl}/documents/upload`, formData);
     }
 
-    updateDocument(id: string, data: Partial<Document>): Observable<Document> {
+    updateDocument(id: string, data: any): Observable<Document> {
         return this.http.patch<Document>(`${this.apiUrl}/documents/${id}`, data);
     }
 
     deleteDocument(id: string): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/documents/${id}`);
-    }
-
-    adminDeleteDocument(id: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/documents/admin/${id}`);
-    }
-
-    downloadDocument(id: string): void {
-        const token = localStorage.getItem('docvault_token');
-        window.open(`${this.apiUrl}/documents/${id}/download?token=${token}`, '_blank');
     }
 
     getVersions(documentId: string): Observable<Version[]> {
@@ -77,16 +55,21 @@ export class DocumentService {
         return this.http.post<Version>(`${this.apiUrl}/documents/${documentId}/versions`, formData);
     }
 
+    downloadDocument(id: string): void {
+        const token = localStorage.getItem('token');
+        window.open(`${this.apiUrl}/documents/${id}/download?token=${token}`, '_blank');
+    }
+
     downloadVersion(versionId: string): void {
-        const token = localStorage.getItem('docvault_token');
-        window.open(`${this.apiUrl}/versions/${versionId}/download?token=${token}`, '_blank');
+        const token = localStorage.getItem('token');
+        window.open(`${this.apiUrl}/documents/versions/${versionId}/download?token=${token}`, '_blank');
     }
 
-    getUsers(): Observable<any[]> {
-        return this.http.get<any[]>(`${this.apiUrl}/users`);
+    getUsers(): Observable<User[]> {
+        return this.http.get<User[]>(`${this.apiUrl}/users`);
     }
 
-    updateUserRole(userId: string, role: string): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/users/${userId}/role`, { role });
+    updateUserRole(userId: string, role: string): Observable<User> {
+        return this.http.patch<User>(`${this.apiUrl}/users/${userId}/role`, { role });
     }
 }

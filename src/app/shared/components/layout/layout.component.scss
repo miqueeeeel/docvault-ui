@@ -1,0 +1,208 @@
+:host {
+    display: block;
+    height: 100vh;
+}
+
+$sidebar-width: 240px;
+$sidebar-collapsed-width: 64px;
+$topbar-height: 64px;
+$transition: 0.25s ease;
+
+.app-shell {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+// ─── Sidebar ────────────────────────────────────────────────
+.sidebar {
+    width: $sidebar-width;
+    min-width: $sidebar-width;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    transition: width $transition, min-width $transition;
+    overflow: hidden;
+    z-index: 100;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.app-shell.sidebar-collapsed .sidebar {
+    width: $sidebar-collapsed-width;
+    min-width: $sidebar-collapsed-width;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    height: $topbar-height;
+    overflow: hidden;
+    white-space: nowrap;
+
+    .logo-icon {
+        font-size: 1.75rem;
+        flex-shrink: 0;
+    }
+
+    .logo-text {
+        font-size: 1.25rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #818cf8, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 0.75rem 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.nav-section-title {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.3);
+    padding: 1rem 1rem 0.25rem;
+    white-space: nowrap;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    border-radius: 0;
+    transition: background $transition, color $transition;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    font-weight: 500;
+    position: relative;
+    margin: 0.15rem 0.5rem;
+    border-radius: 10px;
+
+    mat-icon {
+        flex-shrink: 0;
+        font-size: 1.25rem;
+    }
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.07);
+        color: white;
+    }
+
+    &.active {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
+        color: #a5b4fc;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            bottom: 20%;
+            width: 3px;
+            background: #818cf8;
+            border-radius: 0 3px 3px 0;
+            margin-left: -0.5rem;
+        }
+    }
+}
+
+.sidebar-footer {
+    padding: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: center;
+
+    .logout-btn {
+        color: rgba(255, 255, 255, 0.5);
+
+        &:hover {
+            color: #f87171;
+        }
+    }
+}
+
+// ─── Main Area ──────────────────────────────────────────────
+.main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.topbar {
+    height: $topbar-height;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    .toggle-btn {
+        color: #64748b;
+    }
+}
+
+.topbar-right {
+    margin-left: auto;
+
+    .user-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 10px;
+        padding: 0.25rem 0.5rem;
+        color: #374151;
+    }
+
+    .avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .user-name {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #374151;
+        max-width: 140px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+
+.user-menu-header {
+    padding: 0.5rem 1rem;
+    opacity: 0.6;
+    cursor: default;
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+}

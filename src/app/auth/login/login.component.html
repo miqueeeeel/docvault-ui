@@ -1,0 +1,53 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <span class="logo-icon">🗄️</span>
+      <h1>DocVault</h1>
+    </div>
+    <h2 class="auth-title">Iniciar sesión</h2>
+    <p class="auth-subtitle">Bienvenido de vuelta</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="tu@email.com" autocomplete="email" />
+        <mat-icon matSuffix>email</mat-icon>
+        @if (form.get('email')?.hasError('required') && form.get('email')?.touched) {
+          <mat-error>El email es obligatorio</mat-error>
+        } @else if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
+          <mat-error>Email no válido</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password" autocomplete="current-password" />
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword.set(!hidePassword())">
+          <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        @if (form.get('password')?.hasError('required') && form.get('password')?.touched) {
+          <mat-error>La contraseña es obligatoria</mat-error>
+        }
+      </mat-form-field>
+
+      @if (error()) {
+        <div class="auth-error">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ error() }}</span>
+        </div>
+      }
+
+      <button mat-flat-button class="submit-btn" type="submit" [disabled]="loading() || form.invalid">
+        @if (loading()) {
+          <mat-spinner diameter="20" />
+        } @else {
+          Entrar
+        }
+      </button>
+    </form>
+
+    <p class="auth-link">
+      ¿No tienes cuenta? <a routerLink="/auth/register">Regístrate</a>
+    </p>
+  </div>
+</div>

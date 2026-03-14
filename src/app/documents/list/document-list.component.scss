@@ -1,0 +1,175 @@
+.page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.25rem;
+}
+
+.page-subtitle {
+    color: #64748b;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.upload-btn {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+    color: white !important;
+    border-radius: 10px !important;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.filters-bar {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+
+    .search-field {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .filter-field {
+        min-width: 160px;
+    }
+}
+
+.table-container {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.loading-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 16px;
+    min-height: 200px;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+
+    .empty-icon {
+        font-size: 4rem;
+        width: 4rem;
+        height: 4rem;
+        color: #cbd5e1;
+        margin-bottom: 1rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        color: #374151;
+        margin: 0 0 0.5rem;
+    }
+
+    p {
+        color: #94a3b8;
+        margin: 0 0 1.5rem;
+    }
+}
+
+.docs-table {
+    width: 100%;
+}
+
+.doc-row {
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover {
+        background: #f8fafc;
+    }
+}
+
+.doc-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #1e293b;
+
+    .doc-icon {
+        color: #6366f1;
+        font-size: 1.2rem;
+    }
+}
+
+.category-chip {
+    background: #ede9fe;
+    color: #6d28d9;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+.no-value {
+    color: #cbd5e1;
+}
+
+.tags-cell {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+}
+
+.version-badge {
+    background: #dbeafe;
+    color: #1d4ed8;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.date-cell {
+    color: #64748b;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 0.25rem;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.doc-row:hover .actions-cell {
+    opacity: 1;
+}

@@ -1,0 +1,141 @@
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Mis Documentos</h1>
+        <p class="page-subtitle">{{ totalDocuments() }} documento(s) en total</p>
+    </div>
+    <button mat-flat-button class="upload-btn" (click)="openUploadDialog()">
+        <mat-icon>upload_file</mat-icon>
+        Subir documento
+    </button>
+</div>
+
+<!-- Filters -->
+<div class="filters-bar">
+    <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [formControl]="searchControl" placeholder="Buscar documentos..." />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Categoría</mat-label>
+        <mat-select [formControl]="categoryControl">
+            <mat-option value="">Todas</mat-option>
+            @for (cat of categories; track cat) {
+            <mat-option [value]="cat">{{ cat }}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Ordenar por</mat-label>
+        <mat-select [formControl]="sortControl">
+            <mat-option value="-createdAt">Más reciente</mat-option>
+            <mat-option value="createdAt">Más antiguo</mat-option>
+            <mat-option value="title">Título (A-Z)</mat-option>
+            <mat-option value="-title">Título (Z-A)</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    @if (searchControl.value || categoryControl.value) {
+    <button mat-icon-button (click)="clearFilters()" matTooltip="Limpiar filtros">
+        <mat-icon>filter_list_off</mat-icon>
+    </button>
+    }
+</div>
+
+<!-- Table -->
+<div class="table-container mat-elevation-z1">
+    @if (loading()) {
+    <div class="loading-overlay">
+        <mat-spinner diameter="48" />
+    </div>
+    }
+
+    @if (!loading() && documents().length === 0) {
+    <div class="empty-state">
+        <mat-icon class="empty-icon">folder_open</mat-icon>
+        <h3>No hay documentos</h3>
+        <p>Sube tu primer documento para empezar</p>
+        <button mat-flat-button class="upload-btn" (click)="openUploadDialog()">
+            <mat-icon>upload_file</mat-icon>
+            Subir documento
+        </button>
+    </div>
+    } @else {
+    <table mat-table [dataSource]="documents()" class="docs-table">
+
+        <!-- Title -->
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let doc">
+                <div class="doc-name">
+                    <mat-icon class="doc-icon">description</mat-icon>
+                    <span>{{ doc.title }}</span>
+                </div>
+            </td>
+        </ng-container>
+
+        <!-- Category -->
+        <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Categoría</th>
+            <td mat-cell *matCellDef="let doc">
+                @if (doc.category) {
+                <span class="category-chip">{{ doc.category }}</span>
+                } @else {
+                <span class="no-value">—</span>
+                }
+            </td>
+        </ng-container>
+
+        <!-- Tags -->
+        <ng-container matColumnDef="tags">
+            <th mat-header-cell *matHeaderCellDef>Etiquetas</th>
+            <td mat-cell *matCellDef="let doc">
+                <div class="tags-cell">
+                    @for (tag of doc.tags?.slice(0, 3); track tag) {
+                    <span class="tag">{{ tag }}</span>
+                    }
+                </div>
+            </td>
+        </ng-container>
+
+        <!-- Version -->
+        <ng-container matColumnDef="version">
+            <th mat-header-cell *matHeaderCellDef>Versión</th>
+            <td mat-cell *matCellDef="let doc">
+                <span class="version-badge">v{{ doc.currentVersion }}</span>
+            </td>
+        </ng-container>
+
+        <!-- Date -->
+        <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef>Fecha</th>
+            <td mat-cell *matCellDef="let doc" class="date-cell">
+                {{ formatDate(doc.createdAt) }}
+            </td>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let doc">
+                <div class="actions-cell">
+                    <button mat-icon-button matTooltip="Descargar" (click)="downloadDocument(doc, $event)">
+                        <mat-icon>download</mat-icon>
+                    </button>
+                    <button mat-icon-button matTooltip="Eliminar" color="warn" (click)="deleteDocument(doc, $event)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="doc-row" (click)="openDocument(row)"></tr>
+    </table>
+
+    <mat-paginator [length]="totalDocuments()" [pageSize]="pageSize()" [pageSizeOptions]="[5, 10, 25]"
+        [pageIndex]="currentPage()" (page)="onPageChange($event)" showFirstLastButtons />
+    }
+</div>

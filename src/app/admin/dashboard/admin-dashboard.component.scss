@@ -1,0 +1,124 @@
+.dashboard-page {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: 1.75rem;
+}
+
+.page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.25rem;
+}
+
+.page-subtitle {
+    color: #64748b;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    &.docs-icon {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    }
+
+    &.users-icon {
+        background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    }
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.recent-card {
+    border-radius: 16px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05) !important;
+
+    mat-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.card-header-actions {
+    margin-left: auto;
+}
+
+.loading-center {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.admin-table {
+    width: 100%;
+}
+
+.doc-name {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    mat-icon {
+        color: #6366f1;
+        font-size: 1.1rem;
+    }
+}
+
+.version-badge {
+    background: #dbeafe;
+    color: #1d4ed8;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}

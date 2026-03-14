@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Editar Documento</h2>
+<mat-dialog-content>
+    <form [formGroup]="form" class="edit-form">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Título</mat-label>
+            <input matInput formControlName="title" placeholder="Nuevo título" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput formControlName="description" rows="3" placeholder="Descripción opcional"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Categoría</mat-label>
+            <mat-select formControlName="category">
+                <mat-option value="">Sin categoría</mat-option>
+                @for (cat of categories; track cat) {
+                <mat-option [value]="cat">{{ cat }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        @if (error()) {
+        <div class="error-msg">
+            <mat-icon>error_outline</mat-icon>
+            {{ error() }}
+        </div>
+        }
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()">Cancelar</button>
+    <button mat-flat-button class="save-btn" (click)="save()" [disabled]="loading() || form.invalid">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            @if (loading()) {
+            <mat-spinner diameter="18" />
+            } @else {
+            <span>Guardar</span>
+            }
+        </div>
+    </button>
+</mat-dialog-actions>

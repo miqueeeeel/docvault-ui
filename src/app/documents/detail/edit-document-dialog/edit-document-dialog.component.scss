@@ -1,0 +1,28 @@
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.error-msg {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fef2f2;
+    color: #dc2626;
+    padding: 0.6rem 0.875rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    border: 1px solid #fecaca;
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+    color: white !important;
+    border-radius: 8px !important;
+}

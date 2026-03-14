@@ -1,0 +1,119 @@
+@if (loading()) {
+<div class="loading-center"><mat-spinner /></div>
+} @else {
+@if (document(); as doc) {
+
+<div class="detail-page">
+    <!-- Header -->
+    <div class="detail-header">
+        <button mat-icon-button (click)="goBack()" class="back-btn">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="header-info">
+            <h1 class="doc-title">{{ doc.title }}</h1>
+            <p class="doc-subtitle">Versión actual: <strong>v{{ doc.currentVersion }}</strong></p>
+        </div>
+        <div class="header-actions">
+            <button mat-stroked-button (click)="openEditDialog()">
+                <mat-icon>edit</mat-icon> Editar
+            </button>
+            <button mat-flat-button class="download-btn" (click)="downloadCurrent()">
+                <mat-icon>download</mat-icon> Descargar
+            </button>
+            <label class="upload-version-btn">
+                @if (uploadingVersion()) {
+                <mat-spinner diameter="18" />
+                } @else {
+                <mat-icon>upload</mat-icon>
+                Nueva versión
+                }
+                <input type="file" hidden accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
+                    (change)="onVersionFileSelected($event)" />
+            </label>
+        </div>
+    </div>
+
+    <div class="detail-body">
+        <!-- Info card -->
+        <mat-card class="info-card">
+            <mat-card-header>
+                <mat-card-title>Información</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="info-grid">
+                    @if (doc.description) {
+                    <div class="info-item full">
+                        <span class="info-label">Descripción</span>
+                        <span class="info-value">{{ doc.description }}</span>
+                    </div>
+                    }
+                    <div class="info-item">
+                        <span class="info-label">Categoría</span>
+                        <span class="info-value">{{ doc.category || '—' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Creado</span>
+                        <span class="info-value">{{ formatDate(doc.createdAt) }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Actualizado</span>
+                        <span class="info-value">{{ formatDate(doc.updatedAt) }}</span>
+                    </div>
+                    @if (doc.tags.length) {
+                    <div class="info-item full">
+                        <span class="info-label">Etiquetas</span>
+                        <div class="tags-row">
+                            @for (tag of doc.tags; track tag) {
+                            <span class="tag">{{ tag }}</span>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Versions -->
+        <mat-card class="versions-card">
+            <mat-card-header>
+                <mat-card-title>Historial de versiones</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                @if (versions().length === 0) {
+                <p class="no-versions">No hay versiones registradas</p>
+                } @else {
+                <table mat-table [dataSource]="versions()" class="versions-table">
+                    <ng-container matColumnDef="versionNumber">
+                        <th mat-header-cell *matHeaderCellDef>Versión</th>
+                        <td mat-cell *matCellDef="let v">
+                            <span class="version-badge" [class.current]="v.versionNumber === doc.currentVersion">
+                                v{{ v.versionNumber }}
+                                @if (v.versionNumber === doc.currentVersion) { <span class="current-tag">actual</span> }
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="uploadedAt">
+                        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+                        <td mat-cell *matCellDef="let v">{{ formatDate(v.uploadedAt) }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let v">
+                            <button mat-icon-button (click)="downloadVersion(v.id)" matTooltip="Descargar esta versión">
+                                <mat-icon>download</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="versionColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: versionColumns;"></tr>
+                </table>
+                }
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+}
+}

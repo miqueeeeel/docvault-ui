@@ -1,0 +1,75 @@
+<div class="app-shell" [class.sidebar-collapsed]="sidebarCollapsed()">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <span class="logo-icon">🗄️</span>
+            @if (!sidebarCollapsed()) {
+            <span class="logo-text">DocVault</span>
+            }
+        </div>
+
+        <nav class="sidebar-nav">
+            <a routerLink="/documents" routerLinkActive="active" class="nav-item"
+                [matTooltip]="sidebarCollapsed() ? 'Documentos' : ''" matTooltipPosition="right">
+                <mat-icon>folder</mat-icon>
+                @if (!sidebarCollapsed()) { <span>Documentos</span> }
+            </a>
+
+            @if (authService.isAdmin()) {
+            <div class="nav-section-title" *ngIf="!sidebarCollapsed()">ADMIN</div>
+            <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item"
+                [matTooltip]="sidebarCollapsed() ? 'Dashboard' : ''" matTooltipPosition="right">
+                <mat-icon>dashboard</mat-icon>
+                @if (!sidebarCollapsed()) { <span>Dashboard</span> }
+            </a>
+            <a routerLink="/admin/users" routerLinkActive="active" class="nav-item"
+                [matTooltip]="sidebarCollapsed() ? 'Usuarios' : ''" matTooltipPosition="right">
+                <mat-icon>group</mat-icon>
+                @if (!sidebarCollapsed()) { <span>Usuarios</span> }
+            </a>
+            }
+        </nav>
+
+        <div class="sidebar-footer">
+            <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión" matTooltipPosition="right"
+                class="logout-btn">
+                <mat-icon>logout</mat-icon>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main content area -->
+    <div class="main-area">
+        <!-- Topbar -->
+        <header class="topbar">
+            <button mat-icon-button (click)="toggleSidebar()" class="toggle-btn">
+                <mat-icon>{{ sidebarCollapsed() ? 'menu_open' : 'menu' }}</mat-icon>
+            </button>
+
+            <div class="topbar-right">
+                <button mat-button [matMenuTriggerFor]="userMenu" class="user-btn">
+                    <div class="avatar">{{ userInitials }}</div>
+                    @if (authService.user(); as user) {
+                    <span class="user-name">{{ user.name }}</span>
+                    }
+                    <mat-icon>arrow_drop_down</mat-icon>
+                </button>
+
+                <mat-menu #userMenu="matMenu" xPosition="before">
+                    <div class="user-menu-header" mat-menu-item disabled>
+                        <small>{{ authService.user()?.email }}</small>
+                    </div>
+                    <button mat-menu-item (click)="logout()">
+                        <mat-icon>logout</mat-icon>
+                        <span>Cerrar sesión</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </header>
+
+        <!-- Router content -->
+        <main class="content">
+            <router-outlet />
+        </main>
+    </div>
+</div>
