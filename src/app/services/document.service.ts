@@ -36,7 +36,7 @@ export class DocumentService {
     }
 
     uploadDocument(formData: FormData): Observable<Document> {
-        return this.http.post<Document>(`${this.apiUrl}/documents/upload`, formData);
+        return this.http.post<Document>(`${this.apiUrl}/documents`, formData);
     }
 
     updateDocument(id: string, data: any): Observable<Document> {
